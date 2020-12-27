@@ -14,7 +14,8 @@ class OrmawaController extends Controller
      */
     public function index()
     {
-        //
+        $data_ormawa = Ormawa::all();
+        return view('ormawa.index', compact('data_ormawa'));
     }
 
     /**

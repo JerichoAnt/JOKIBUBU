@@ -182,15 +182,50 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item menu-open">
-            <a href="#" class="nav-link">
+          <li class="nav-item menu-close">
+            <a href="/" class="nav-link">
               <i class="nav-icon fas fa-calendar-alt"></i>
               <p>
                 Home
               </p>
             </a>
           </li>
-          <li class="nav-item menu-open">
+          <li class="nav-item menu-close">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Report
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('barangs.index') }}" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Barang</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('ormawas.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ormawa</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('fasilitas.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Fasilitas</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('jadwals.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Jadwal</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item menu-close">
             <a href="#" class="nav-link">
               <i class="nav-icon fas  fa-sign-out-alt"></i>
               <p>

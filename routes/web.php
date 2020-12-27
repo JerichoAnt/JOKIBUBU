@@ -21,8 +21,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/helloworld', function () {
-    return 'Hello World, Pak Dosen';
-});
-
-Route::view('/selamatdatang','welcome');
+Route::resource('barangs', 'BarangController');
+Route::resource('fasilitas', 'FasilitasController');
+Route::resource('jadwals', 'JadwalController');
+Route::resource('ormawas', 'OrmawaController');
