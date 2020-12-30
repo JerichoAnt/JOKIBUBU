@@ -25,7 +25,7 @@ class BarangController extends Controller
      */
     public function create()
     {
-        //
+        return view('barang.create');
     }
 
     /**
@@ -36,7 +36,12 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = new Barang;
+        $data->nama_barang = $request->get('namaBarang');
+
+        $data->save();
+
+        return redirect('barangs')->with('status','Jenis Barang Baru berhasil ditambah!!');
     }
 
     /**
@@ -58,7 +63,8 @@ class BarangController extends Controller
      */
     public function edit(Barang $barang)
     {
-        //
+        $data = $barang;
+        return view('barang.edit',compact('data'));
     }
 
     /**
@@ -70,7 +76,10 @@ class BarangController extends Controller
      */
     public function update(Request $request, Barang $barang)
     {
-        //
+        $barang->nama_barang = $request->get('namaBarang');
+
+        $barang->save();
+        return redirect()->route('barangs.index')->with('status','Data Barang berhasil diubah');
     }
 
     /**
@@ -81,6 +90,15 @@ class BarangController extends Controller
      */
     public function destroy(Barang $barang)
     {
-        //
+        try
+        {
+            $barang->delete();
+            return redirect('/barangs')-> with('status','Data barang Berhasil Dihapus');
+        }
+        catch(\PDOException $e)
+        {
+            $msg='Gagal hapus data barang...' ;
+            return redirect('/barangs')->with('error',$msg);
+        }
     }
 }

@@ -25,7 +25,7 @@ class OrmawaController extends Controller
      */
     public function create()
     {
-        //
+        return view('ormawa.create');
     }
 
     /**
@@ -36,7 +36,12 @@ class OrmawaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = new Ormawa;
+        $data->nama_ormawa = $request->get('namaOrmawa');
+
+        $data->save();
+
+        return redirect('ormawas')->with('status','Jenis Ormawa Baru berhasil ditambah!!');
     }
 
     /**
@@ -58,7 +63,8 @@ class OrmawaController extends Controller
      */
     public function edit(Ormawa $ormawa)
     {
-        //
+        $data = $ormawa;
+        return view('ormawa.edit',compact('data'));
     }
 
     /**
@@ -70,7 +76,10 @@ class OrmawaController extends Controller
      */
     public function update(Request $request, Ormawa $ormawa)
     {
-        //
+        $ormawa->nama_ormawa = $request->get('namaOrmawa');
+
+        $ormawa->save();
+        return redirect()->route('ormawas.index')->with('status','Data Ormawa berhasil diubah');
     }
 
     /**
@@ -81,6 +90,16 @@ class OrmawaController extends Controller
      */
     public function destroy(Ormawa $ormawa)
     {
-        //
+        try
+        {
+            $ormawa->delete();
+
+            return redirect('/ormawas')-> with('status','Data Ormawa Berhasil Dihapus');
+        }
+        catch(\PDOException $e)
+        {
+            $msg='Gagal hapus data ormawa...' ;
+            return redirect('/ormawas')->with('error',$msg);
+        }
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Jadwal;
+use App\Ormawa;
+use App\Fasilitas;
 use Illuminate\Http\Request;
 
 class JadwalController extends Controller
@@ -25,7 +27,9 @@ class JadwalController extends Controller
      */
     public function create()
     {
-        //
+        $ormawa = Ormawa::all();
+        $fasilitas = Fasilitas::all();
+        return view('jadwal.create',compact('ormawa', 'fasilitas'));
     }
 
     /**
@@ -36,7 +40,18 @@ class JadwalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = new Jadwal;
+        $data->nama_peminjam = $request->get('namaPeminjam');
+        $data->nrp = $request->get('nrp');
+        $data->no_telp = $request->get('nomorTelp');
+        $data->id_ormawa = $request->get('ormawa');
+        $data->nama_kegiatan = $request->get('namaKegiatan');
+        $data->id_fasilitas = $request->get('fasilitas');
+        $data->durasi = $request->get('durasi');
+
+        $data->save();
+
+        return redirect('jadwals')->with('status','Data Jadwal berhasil ditambah!!');
     }
 
     /**
@@ -58,7 +73,10 @@ class JadwalController extends Controller
      */
     public function edit(Jadwal $jadwal)
     {
-        //
+        $data = $jadwal;
+        $ormawa = Ormawa::all();
+        $fasilitas = Fasilitas::all();
+        return view('jadwal.edit',compact('data', 'ormawa', 'fasilitas'));
     }
 
     /**
@@ -70,7 +88,16 @@ class JadwalController extends Controller
      */
     public function update(Request $request, Jadwal $jadwal)
     {
-        //
+        $jadwal->nama_peminjam = $request->get('namaPeminjam');
+        $jadwal->nrp = $request->get('nrp');
+        $jadwal->no_telp = $request->get('nomorTelp');
+        $jadwal->id_ormawa = $request->get('ormawa');
+        $jadwal->nama_kegiatan = $request->get('namaKegiatan');
+        $jadwal->id_fasilitas = $request->get('fasilitas');
+        $jadwal->durasi = $request->get('durasi');
+
+        $jadwal->save();
+        return redirect()->route('jadwals.index')->with('status','Data Jadwal berhasil diubah');
     }
 
     /**
@@ -81,6 +108,16 @@ class JadwalController extends Controller
      */
     public function destroy(Jadwal $jadwal)
     {
-        //
+        try
+        {
+            $jadwal->delete();
+
+            return redirect('/jadwals')-> with('status','Data jadwal Berhasil Dihapus');
+        }
+        catch(\PDOException $e)
+        {
+            $msg='Gagal hapus data jadwal...' ;
+            return redirect('/jadwals')->with('error',$msg);
+        }
     }
 }

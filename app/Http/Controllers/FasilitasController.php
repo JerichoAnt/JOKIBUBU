@@ -25,7 +25,7 @@ class FasilitasController extends Controller
      */
     public function create()
     {
-        //
+        return view('fasilitas.create');
     }
 
     /**
@@ -36,7 +36,12 @@ class FasilitasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = new Fasilitas;
+        $data->nama_fasilitas = $request->get('namaFasilitas');
+
+        $data->save();
+
+        return redirect('fasilitas')->with('status','Jenis Fasilitas Baru berhasil ditambah!!');
     }
 
     /**
@@ -58,7 +63,8 @@ class FasilitasController extends Controller
      */
     public function edit(Fasilitas $fasilitas)
     {
-        //
+        $data = $fasilitas;
+        return view('fasilitas.edit',compact('data'));
     }
 
     /**
@@ -70,7 +76,10 @@ class FasilitasController extends Controller
      */
     public function update(Request $request, Fasilitas $fasilitas)
     {
-        //
+        $fasilitas->nama_fasilitas = $request->get('namaFasilitas');
+
+        $fasilitas->save();
+        return redirect()->route('fasilitas.index')->with('status','Data Fasiltas berhasil diubah');
     }
 
     /**
@@ -81,6 +90,16 @@ class FasilitasController extends Controller
      */
     public function destroy(Fasilitas $fasilitas)
     {
-        //
+        try
+        {
+            $fasilitas->delete();
+
+            return redirect('/fasilitas')-> with('status','Data fasilitas Berhasil Dihapus');
+        }
+        catch(\PDOException $e)
+        {
+            $msg='Gagal hapus data fasilitas...' ;
+            return redirect('/fasilitas')->with('error',$msg);
+        }
     }
 }
