@@ -26,3 +26,6 @@ Route::resource('fasilitas', 'FasilitasController', ['parameters' => [
     'fasilitas' => 'fasilitas']]);
 Route::resource('jadwals', 'JadwalController');
 Route::resource('ormawas', 'OrmawaController');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
