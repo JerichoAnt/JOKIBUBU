@@ -26,3 +26,4 @@ Route::resource('fasilitas', 'FasilitasController', ['parameters' => [
     'fasilitas' => 'fasilitas']]);
 Route::resource('jadwals', 'JadwalController');
 Route::resource('ormawas', 'OrmawaController');
+Route::get('/','JadwalController@jadwal')->name('jadwal');

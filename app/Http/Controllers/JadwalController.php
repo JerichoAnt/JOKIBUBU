@@ -20,6 +20,12 @@ class JadwalController extends Controller
         return view('jadwal.index', compact('data_jadwal'));
     }
 
+    public function jadwal()
+    {
+        $data_jadwal = Jadwal::all();
+        return view('welcome', compact('data_jadwal'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -47,7 +53,8 @@ class JadwalController extends Controller
         $data->id_ormawa = $request->get('ormawa');
         $data->nama_kegiatan = $request->get('namaKegiatan');
         $data->id_fasilitas = $request->get('fasilitas');
-        $data->durasi = $request->get('durasi');
+        $data->durasiMulai = $request->get('durasiMulai');
+        $data->durasiSelesai = $request->get('durasiSelesai');
 
         $data->save();
 
@@ -94,7 +101,8 @@ class JadwalController extends Controller
         $jadwal->id_ormawa = $request->get('ormawa');
         $jadwal->nama_kegiatan = $request->get('namaKegiatan');
         $jadwal->id_fasilitas = $request->get('fasilitas');
-        $jadwal->durasi = $request->get('durasi');
+        $jadwal->durasiMulai = $request->get('durasiMulai');
+        $jadwal->durasiSelesai = $request->get('durasiSelesai');
 
         $jadwal->save();
         return redirect()->route('jadwals.index')->with('status','Data Jadwal berhasil diubah');

@@ -23,7 +23,8 @@ class CreateJadwalsTable extends Migration
             $table->string('nama_kegiatan');
             $table->unsignedBigInteger('id_fasilitas');
             $table->foreign('id_fasilitas')->references('id')->on('fasilitas');
-            $table->string('durasi');
+            $table->string('durasiMulai');
+            $table->string('durasiSelesai');
         });
     }
 
