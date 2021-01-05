@@ -79,7 +79,7 @@ class FasilitasController extends Controller
         $fasilitas->nama_fasilitas = $request->get('namaFasilitas');
 
         $fasilitas->save();
-        return redirect()->route('fasilitas.index')->with('status','Data Fasiltas berhasil diubah');
+        return redirect()->route('fasilitas.index')->with('status','Data Fasilitas berhasil diubah');
     }
 
     /**

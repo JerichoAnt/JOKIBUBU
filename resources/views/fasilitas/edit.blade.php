@@ -11,8 +11,8 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form method="POST" action="{{ url('fasilitas/$data->id')  }}">
-        <!-- <form method="POST" action="{{ route('fasilitas.update',$data->id)  }}"> -->
+        <!-- <form method="POST" action="{{ url('fasilitas/$data->id')  }}"> -->
+        <form method="POST" action="{{route('fasilitas.update',$data->id)}}">
         @csrf
         @method("PUT")
         <div class="card-body">

@@ -22,6 +22,7 @@ Route::get('/', function () {
 });
 
 Route::resource('barangs', 'BarangController');
-Route::resource('fasilitas', 'FasilitasController');
+Route::resource('fasilitas', 'FasilitasController', ['parameters' => [
+    'fasilitas' => 'fasilitas']]);
 Route::resource('jadwals', 'JadwalController');
 Route::resource('ormawas', 'OrmawaController');
