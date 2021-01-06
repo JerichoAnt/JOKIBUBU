@@ -21,11 +21,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('barangs', 'BarangController');
-Route::resource('fasilitas', 'FasilitasController', ['parameters' => [
-    'fasilitas' => 'fasilitas']]);
-Route::resource('jadwals', 'JadwalController');
-Route::resource('ormawas', 'OrmawaController');
-Auth::routes();
 Route::get('/','JadwalController@jadwal')->name('jadwal');
-Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware(['auth'])->group(function()
+{
+    Route::resource('barangs', 'BarangController')->middleware('can:dpk');
+    Route::resource('fasilitas', 'FasilitasController', ['parameters' => ['fasilitas' => 'fasilitas']])->middleware('can:dpk');
+    Route::resource('jadwals', 'JadwalController')->middleware('can:dpk');
+    Route::resource('ormawas', 'OrmawaController')->middleware('can:dpk');
+
+    Route::get('/home', 'HomeController@index')->name('home');
+});
+Auth::routes();

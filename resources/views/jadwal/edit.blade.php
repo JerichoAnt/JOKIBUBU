@@ -70,8 +70,11 @@
         </div>
         <div class="card-body">
             <div class="form-group">
-            <label for="exampleInputEmail1">Durasi</label>
-            <input type="text" value="{{$data->durasi}}" class="form-control" name="durasi" placeholder="Durasi" required>
+            <label for="exampleInputEmail1">Durasi:</label><br>
+            <label>Mulai</label>
+            <input type="datetime-local" value="{{$data->durasiMulai}}" class="form-control" name="durasiMulai" placeholder="Durasi" required><br>
+            <label>Selesai</label>
+            <input type="datetime-local" value="{{$data->durasiSelesai}}" class="form-control" name="durasiSelesai" placeholder="Durasi" required>
             </div>
         </div>
         <!-- /.card-body -->

@@ -30,7 +30,8 @@
                       <th>Ormawa</th>
                       <th>Nama Kegiatan</th>
                       <th>Fasilitas</th>
-                      <th>Durasi</th>
+                      <th>Durasi Mulai</th>
+                      <th>Durasi Selesai</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -38,7 +39,8 @@
                     @foreach($data_jadwal as $d)
                     <tr>
                         <td>
-                            {{$d->id}}
+                        <input type="checkbox">
+
                         </td>
                         <td>
                             {{$d->nama_peminjam}}
@@ -59,7 +61,10 @@
                             {{$d->fasilitas->nama_fasilitas}}
                         </td>
                         <td>
-                            {{$d->durasi}}
+                            {{$d->durasiMulai}}
+                        </td>
+                        <td>
+                            {{$d->durasiSelesai}}
                         </td>
                         <td>
                         <a class="btn btn-warning" href="{{ route('jadwals.edit', $d->id) }}">

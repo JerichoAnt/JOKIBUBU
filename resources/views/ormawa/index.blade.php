@@ -32,7 +32,8 @@
                     @foreach($data_ormawa as $d)
                     <tr>
                         <td>
-                            {{$d->id}}
+                        <input type="checkbox">
+
                         </td>
                         <td>
                             {{$d->nama_ormawa}}
