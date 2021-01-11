@@ -1,6 +1,7 @@
 @extends('layout.adminlte')
 
 @section('tempat_konten')
+<br>
 <div class="col-md-12">
     <!-- general form elements -->
     <div class="card card-primary">

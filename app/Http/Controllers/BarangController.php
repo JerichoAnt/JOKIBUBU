@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Barang;
 use Illuminate\Http\Request;
+use DB;
 
 class BarangController extends Controller
 {
@@ -100,5 +101,21 @@ class BarangController extends Controller
             $msg='Gagal hapus data barang...' ;
             return redirect('/barangs')->with('error',$msg);
         }
+    }
+
+    public function deleteAll(Request $request)
+    {
+        try
+        {
+            $ids = $request->get('ids');
+            $dbs = DB::delete('delete from barangs where id in ('.implode(",", $ids).')');
+            return redirect('/barangs')-> with('status','Data barang Berhasil Dihapus');
+        }
+        catch(\PDOException $e)
+        {
+            $msg='Gagal hapus data barang...' ;
+            return redirect('/barangs')->with('error',$msg);
+        }
+        
     }
 }

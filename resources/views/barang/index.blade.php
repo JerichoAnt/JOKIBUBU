@@ -1,79 +1,37 @@
 @extends('layout.adminlte')
 
 @section('tempat_konten')
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Daftar Barang</h3>
-        <br>
-        @if (session('status'))
-            <div class="alert alert-success" role="alert">
-                {{ session('status') }}
-            </div>
-        @endif
-        @if (session('error'))
-          <div class="alert alert-danger" role="alert">
-              {{ session('error') }}
-          </div>
-        @endif
-        <br>
-        <a href="{{route('barangs.create')}}">+ Tambah Barang Baru</a>
-    </div>
-    <!-- /.card-header -->
-    <div class="card-body p-0">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th style="width: 10px">#</th>
-                    <th>Nama Barang</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($data_barang as $d)
-                <tr>
-                    <td>
-                        <input type="checkbox">
-                    </td>
-                    <td>
-                        {{$d->nama_barang}}
-                    </td>
-                    <td>
-                        <a class="btn btn-warning" href="{{ route('barangs.edit', $d->id) }}">
-                            Update 
-                        </a>
-                    </td>
-                    <td class="actions" data-th="">
-                        <form method='POST' action="{{ route('barangs.destroy', $d->id) }}" >
-                            @csrf
-                            @method('DELETE')
-                            <input type='submit' value='Delete' class='btn btn-danger' 
-                            onclick="if(!confirm('Apakah Anda yakin?' )) return false;"
-                            />
-                        </form>
-                    </td>    
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-    <!-- /.card-body -->
-</div>
-
-
+<br>
 <section class="content">
         <div class="container-fluid">
             <div class="row">
             <div class="col-12">
                 <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">DataTable with default features</h3>
+                    <h3 class="card-title">Daftar Barang</h3>
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+                    @if (session('error'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                    <br>
+                    <a href="{{route('barangs.create')}}">+ Tambah Barang Baru</a>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
+                <form method="post">
+                @csrf
+                @method('DELETE')
+                <button formaction="/deleteallBarang" type="submit" class="btn btn-danger" onclick="if(!confirm('Apakah Anda yakin?' )) return false;">Delete All Selected</button>
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                         <tr>
-                            <th style="width: 10px">#</th>
+                            <th style="width: 10px"><input type="checkbox" class="selectall"></th>
                             <th>Nama Barang</th>
                             <th></th>
                         </tr>
@@ -82,7 +40,7 @@
                             @foreach($data_barang as $d)
                             <tr>
                                 <td>
-                                    <input type="checkbox">
+                                    <input type="checkbox" name="ids[]" class="selectbox" value="{{$d->id}}">
                                 </td>
                                 <td>
                                     {{$d->nama_barang}}
@@ -91,20 +49,15 @@
                                     <a class="btn btn-warning" href="{{ route('barangs.edit', $d->id) }}">
                                         Update 
                                     </a>
-                                </td>
-                                <td class="actions" data-th="">
-                                    <form method='POST' action="{{ route('barangs.destroy', $d->id) }}" >
-                                        @csrf
-                                        @method('DELETE')
-                                        <input type='submit' value='Delete' class='btn btn-danger' 
+                                        <button formaction="{{ route('barangs.destroy', $d->id) }}" type='submit' value='Delete' class='btn btn-danger' 
                                         onclick="if(!confirm('Apakah Anda yakin?' )) return false;"
-                                        />
-                                    </form>
+                                        >Delete</button>
                                 </td>    
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    </form>
                 </div>
                 <!-- /.card-body -->
                 </div>
@@ -116,6 +69,24 @@
         </div>
       <!-- /.container-fluid -->
     </section>
+
+<script type="text/javascript">
+    $('.selectall').click(function(){
+        $('.selectbox').prop('checked', $(this).prop('checked'));
+    })
+    $('.selectbox').change(function(){
+        var total = $('.selectbox').length;
+        var number = $('.selectbox:checked').length;
+        if(total == number)
+        {
+            $('.selectall').prop('checked', true);
+        }
+        else
+        {
+            $('.selectall').prop('checked', false);
+        }
+    })
+</script>
 @endsection
 
 
@@ -124,22 +95,22 @@
 <!-- Bootstrap 4 -->
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- DataTables  & Plugins -->
-<script src="{{ asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{ asset('plugins/datatables/jquery.dataTables.min.js')}}"defer></script>
+<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"defer></script>
+<script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"defer></script>
+<script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"defer></script>
+<script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"defer></script>
+<script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"defer></script>
 <script src="{{ asset('plugins/jszip/jszip.min.js')}}"></script>
 <script src="{{ asset('plugins/pdfmake/pdfmake.min.js')}}"></script>
 <script src="{{ asset('plugins/pdfmake/vfs_fonts.js')}}"></script>
-<script src="{{ asset('plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+<script src="{{ asset('plugins/datatables-buttons/js/buttons.html5.min.js')}}"defer></script>
+<script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js')}}"defer></script>
+<script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js')}}"defer></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.min.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="{{ asset('dist/js/demo.js')}}"></script>
+<script src="{{ asset('dist/js/demo.js')}}"defer></script>
 <!-- Page specific script -->
 <script>
   $(function () {

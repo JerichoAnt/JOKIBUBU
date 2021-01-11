@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Ormawa;
 use Illuminate\Http\Request;
+use DB;
 
 class OrmawaController extends Controller
 {
@@ -101,5 +102,21 @@ class OrmawaController extends Controller
             $msg='Gagal hapus data ormawa...' ;
             return redirect('/ormawas')->with('error',$msg);
         }
+    }
+
+    public function deleteAll(Request $request)
+    {
+        try
+        {
+            $ids = $request->get('ids');
+            $dbs = DB::delete('delete from ormawas where id in ('.implode(",", $ids).')');
+            return redirect('/ormawas')-> with('status','Data Ormawa Berhasil Dihapus');
+        }
+        catch(\PDOException $e)
+        {
+            $msg='Gagal hapus data ormawa...' ;
+            return redirect('/ormawas')->with('error',$msg);
+        }
+        
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Fasilitas;
 use Illuminate\Http\Request;
+use DB;
 
 class FasilitasController extends Controller
 {
@@ -94,6 +95,22 @@ class FasilitasController extends Controller
         {
             $fasilitas->delete();
 
+            return redirect('/fasilitas')-> with('status','Data fasilitas Berhasil Dihapus');
+        }
+        catch(\PDOException $e)
+        {
+            $msg='Gagal hapus data fasilitas...' ;
+            return redirect('/fasilitas')->with('error',$msg);
+        }
+    }
+
+    public function deleteAll(Request $request)
+    {
+        
+        try
+        {
+            $ids = $request->get('ids');
+            $dbs = DB::delete('delete from fasilitas where id in ('.implode(",", $ids).')');
             return redirect('/fasilitas')-> with('status','Data fasilitas Berhasil Dihapus');
         }
         catch(\PDOException $e)

@@ -30,6 +30,11 @@ Route::middleware(['auth'])->group(function()
     Route::resource('jadwals', 'JadwalController')->middleware('can:dpk');
     Route::resource('ormawas', 'OrmawaController')->middleware('can:dpk');
 
+    Route::delete('/deleteallBarang', 'BarangController@deleteAll');
+    Route::delete('/deleteallFasilitas', 'FasilitasController@deleteAll');
+    Route::delete('/deleteallOrmawa', 'OrmawaController@deleteAll');
+    Route::delete('/deleteallJadwal', 'JadwalController@deleteAll');
+
     Route::get('/home', 'HomeController@index')->name('home');
 });
 Auth::routes();

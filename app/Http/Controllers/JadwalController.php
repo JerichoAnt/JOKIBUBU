@@ -6,6 +6,7 @@ use App\Jadwal;
 use App\Ormawa;
 use App\Fasilitas;
 use Illuminate\Http\Request;
+use DB;
 
 class JadwalController extends Controller
 {
@@ -120,6 +121,22 @@ class JadwalController extends Controller
         {
             $jadwal->delete();
 
+            return redirect('/jadwals')-> with('status','Data jadwal Berhasil Dihapus');
+        }
+        catch(\PDOException $e)
+        {
+            $msg='Gagal hapus data jadwal...' ;
+            return redirect('/jadwals')->with('error',$msg);
+        }
+    }
+
+    public function deleteAll(Request $request)
+    {
+        
+        try
+        {
+            $ids = $request->get('ids');
+            $dbs = DB::delete('delete from jadwals where id in ('.implode(",", $ids).')');
             return redirect('/jadwals')-> with('status','Data jadwal Berhasil Dihapus');
         }
         catch(\PDOException $e)
