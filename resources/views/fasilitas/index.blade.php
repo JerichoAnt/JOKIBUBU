@@ -28,7 +28,7 @@
                 @csrf
                 @method('DELETE')
                 <button formaction="/deleteallFasilitas" type="submit" class="btn btn-danger" onclick="if(!confirm('Apakah Anda yakin?' )) return false;">Delete All Selected</button>
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="tabelFasilitas" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th style="width: 10px"><input type="checkbox" class="selectall"></th>
@@ -115,9 +115,9 @@
 <!-- Page specific script -->
 <script>
   $(function () {
-    $("#example1").DataTable({
+    $("#tabelFasilitas").DataTable({
       "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      "buttons": ["copy", "csv", "excel", "pdf", "print"]
+    }).buttons().container().appendTo('#tabelFasilitas_wrapper .col-md-6:eq(0)');
   });
 </script>

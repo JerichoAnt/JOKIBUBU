@@ -20,7 +20,9 @@
                       </div>
                     @endif
                     <br>
-                    <a href="{{route('jadwals.create')}}">+ Tambah Jadwal Baru</a>
+                    <a href="{{route('jadwals.create')}}">+ Tambah Jadwal Fasilitas Baru</a>
+                    <br>
+                    <a href="{{route('jadwals.createBarang')}}">+ Tambah Jadwal Barang Baru</a>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body" style="overflow:auto;">
@@ -28,7 +30,7 @@
                 @csrf
                 @method('DELETE')
                 <button formaction="/deleteallJadwal" type="submit" class="btn btn-danger" onclick="if(!confirm('Apakah Anda yakin?' )) return false;">Delete All Selected</button>
-                    <table id="example1" class="table table-bordered table-striped">
+                    <table id="tabelJadwal" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                       <th style="width: 10px"><input type="checkbox" class="selectall"></th>
@@ -38,6 +40,8 @@
                       <th>Ormawa</th>
                       <th>Nama Kegiatan</th>
                       <th>Fasilitas</th>
+                      <th>Barang</th>
+                      <th>Jumlah</th>
                       <th>Durasi Mulai</th>
                       <th>Durasi Selesai</th>
                       <th></th>
@@ -67,6 +71,12 @@
                         </td>
                         <td>
                             {{$d->fasilitas->nama_fasilitas}}
+                        </td>
+                        <td>
+                            {{$d->barang->nama_barang}}
+                        </td>
+                        <td>
+                            {{$d->jumlah}}
                         </td>
                         <td>
                             {{$d->durasiMulai}}
@@ -143,9 +153,9 @@
 <!-- Page specific script -->
 <script>
   $(function () {
-    $("#example1").DataTable({
+    $("#tabelJadwal").DataTable({
       "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      "buttons": ["copy", "csv", "excel", "pdf", "print"]
+    }).buttons().container().appendTo('#tabelJadwal_wrapper .col-md-6:eq(0)');
   });
 </script>

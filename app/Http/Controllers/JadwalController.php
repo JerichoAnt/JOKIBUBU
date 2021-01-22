@@ -145,4 +145,29 @@ class JadwalController extends Controller
             return redirect('/jadwals')->with('error',$msg);
         }
     }
+
+    public function createBarang()
+    {
+        $ormawa = Ormawa::all();
+        $barang = Barang::all();
+        return view('jadwal.createBarang',compact('ormawa', 'barang'));
+    }
+
+    public function storeBarang(Request $request)
+    {
+        $data = new Jadwal;
+        $data->nama_peminjam = $request->get('namaPeminjam');
+        $data->nrp = $request->get('nrp');
+        $data->no_telp = $request->get('nomorTelp');
+        $data->id_ormawa = $request->get('ormawa');
+        $data->nama_kegiatan = $request->get('namaKegiatan');
+        $data->id_barang = $request->get('barang');
+        $data->jumlah = $request->get('jumlah');
+        $data->durasiMulai = $request->get('durasiMulai');
+        $data->durasiSelesai = $request->get('durasiSelesai');
+
+        $data->save();
+
+        return redirect('jadwals')->with('status','Data Jadwal berhasil ditambah!!');
+    }
 }
