@@ -73,7 +73,7 @@
                             {{$d->fasilitas->nama_fasilitas}}
                         </td>
                         <td>
-                            {{$d->barang->nama_barang}}
+                            {{$d->barang['nama_barang']}}
                         </td>
                         <td>
                             {{$d->jumlah}}
