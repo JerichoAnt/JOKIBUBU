@@ -27,10 +27,10 @@ Route::middleware(['auth'])->group(function()
 {
     Route::resource('barangs', 'BarangController')->middleware('can:dpk');
     Route::resource('fasilitas', 'FasilitasController', ['parameters' => ['fasilitas' => 'fasilitas']])->middleware('can:dpk');
+    
     Route::resource('jadwals', 'JadwalController')->middleware('can:dpk');
-    Route::resource('ormawas', 'OrmawaController')->middleware('can:dpk');
 
-    Route::post('jadwals/createBarang','JadwalController@createBarang')->name('jadwals.createBarang')->middleware('can:dpk');
+    Route::resource('ormawas', 'OrmawaController')->middleware('can:dpk');
 
     Route::delete('/deleteallBarang', 'BarangController@deleteAll');
     Route::delete('/deleteallFasilitas', 'FasilitasController@deleteAll');
@@ -38,5 +38,7 @@ Route::middleware(['auth'])->group(function()
     Route::delete('/deleteallJadwal', 'JadwalController@deleteAll');
 
     Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('barang/tambahBarang','JadwalController@tambahBarang')->name('barang.tambahBarang')->middleware('can:dpk');
+    Route::get('barang/storeBarang','JadwalController@storeBarang')->name('barang.storeBarang')->middleware('can:dpk');
 });
 Auth::routes();

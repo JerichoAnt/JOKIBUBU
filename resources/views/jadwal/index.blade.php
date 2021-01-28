@@ -22,7 +22,7 @@
                     <br>
                     <a href="{{route('jadwals.create')}}">+ Tambah Jadwal Fasilitas Baru</a>
                     <br>
-                    <a href="{{route('jadwals.createBarang')}}">+ Tambah Jadwal Barang Baru</a>
+                    <a href="{{route('barang.tambahBarang')}}">+ Tambah Jadwal Barang Baru</a>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body" style="overflow:auto;">
@@ -73,7 +73,7 @@
                             {{$d->fasilitas->nama_fasilitas}}
                         </td>
                         <td>
-                            {{$d->barang['nama_barang']}}
+                            {{$d->barang->nama_barang}}
                         </td>
                         <td>
                             {{$d->jumlah}}

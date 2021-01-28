@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jadwal;
 use App\Ormawa;
 use App\Fasilitas;
+use App\Barang;
 use Illuminate\Http\Request;
 use DB;
 
@@ -146,11 +147,11 @@ class JadwalController extends Controller
         }
     }
 
-    public function createBarang()
+    public function tambahBarang()
     {
         $ormawa = Ormawa::all();
         $barang = Barang::all();
-        return view('jadwal.createBarang',compact('ormawa', 'barang'));
+        return view('jadwal.tambahBarang',compact('ormawa', 'barang'));
     }
 
     public function storeBarang(Request $request)
