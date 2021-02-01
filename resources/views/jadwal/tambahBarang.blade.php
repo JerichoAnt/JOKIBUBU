@@ -49,7 +49,7 @@
         </div>
         <div class="card-body">
             <div class="form-group">
-                <label>Fasilitas</label>
+                <label>Barang</label>
                 <select name="barang" class="form-control select2" style="width: 100%;" required>
                 <option value="" disabled selected>Pilih Barang</option>
                 @foreach($barang as $s)

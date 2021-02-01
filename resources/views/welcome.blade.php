@@ -94,7 +94,8 @@
       themeSystem: 'bootstrap',
       //Random default events
       events: [
-        @foreach($data_jadwal as $d)
+        //Fasilitas
+        @foreach($data_jadwal_fasilitas as $d)
         {
           title          : '{{$d->nama_kegiatan}}',
           start          : new Date('{{$d->durasiMulai}}'.substring(0,4), '{{$d->durasiMulai}}'.substring(5,7)-1, '{{$d->durasiMulai}}'.substring(8,10), '{{$d->durasiMulai}}'.substring(11,13), '{{$d->durasiMulai}}'.substring(14,16)),
@@ -102,6 +103,18 @@
           allDay         : false,
           backgroundColor: '#0073b7', //Blue
           borderColor    : '#0073b7' //Blue
+        },
+        @endforeach
+
+        //Barang
+        @foreach($data_jadwal_barang as $d)
+        {
+          title          : '{{$d->nama_kegiatan}}',
+          start          : new Date('{{$d->durasiMulai}}'.substring(0,4), '{{$d->durasiMulai}}'.substring(5,7)-1, '{{$d->durasiMulai}}'.substring(8,10), '{{$d->durasiMulai}}'.substring(11,13), '{{$d->durasiMulai}}'.substring(14,16)),
+          end            : new Date('{{$d->durasiSelesai}}'.substring(0,4), '{{$d->durasiSelesai}}'.substring(5,7)-1, '{{$d->durasiSelesai}}'.substring(8,10), '{{$d->durasiSelesai}}'.substring(11,13), '{{$d->durasiSelesai}}'.substring(14,16)),
+          allDay         : false,
+          backgroundColor: '#f2c335', //Yellow
+          borderColor    : '#f2c335' //Yellow
         },
         @endforeach
       ],

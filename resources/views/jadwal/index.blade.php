@@ -70,10 +70,10 @@
                             {{$d->nama_kegiatan}}
                         </td>
                         <td>
-                            {{$d->fasilitas->nama_fasilitas}}
+                            {{$d->fasilitas['nama_fasilitas']}}
                         </td>
                         <td>
-                            {{$d->barang->nama_barang}}
+                            {{$d->barang['nama_barang']}}
                         </td>
                         <td>
                             {{$d->jumlah}}
@@ -85,9 +85,16 @@
                             {{$d->durasiSelesai}}
                         </td>
                         <td>
+                    @if($d->id_fasilitas == null)
+                        <a class="btn btn-warning" href="{{ route('anjing.anjing') }}">
+                            Update 
+                        </a>
+                    @elseif ($d->id_barang == null)
                         <a class="btn btn-warning" href="{{ route('jadwals.edit', $d->id) }}">
                             Update 
                         </a>
+                    @endif
+                        
                           <button formaction="{{ route('jadwals.destroy', $d->id) }}" type='submit' value='Delete' class='btn btn-danger' 
                           onclick="if(!confirm('Apakah Anda yakin?' )) return false;"
                           >Delete</button>
