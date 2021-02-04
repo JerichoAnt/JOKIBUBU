@@ -85,11 +85,14 @@
                             {{$d->durasiSelesai}}
                         </td>
                         <td>
-                    @if($d->id_fasilitas == null)
-                        <a class="btn btn-warning" href="{{ route('anjing.anjing') }}">
+                @if($d->id_fasilitas == null)
+                    <!-- <a class="btn btn-warning" href="{{ route('barang.editBarang') }}">
+                        Update Barang
+                    </a> -->
+                    <a class="btn btn-warning" href="{{ route('jadwals.edit', $d->id) }}">
                             Update 
                         </a>
-                    @elseif ($d->id_barang == null)
+                @elseif ($d->id_barang == null)
                         <a class="btn btn-warning" href="{{ route('jadwals.edit', $d->id) }}">
                             Update 
                         </a>

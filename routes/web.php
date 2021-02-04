@@ -38,9 +38,10 @@ Route::middleware(['auth'])->group(function()
     Route::delete('/deleteallJadwal', 'JadwalController@deleteAll');
 
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::post('barang/tambahBarang','JadwalController@tambahBarang')->name('barang.tambahBarang')->middleware('can:dpk');
+    Route::get('barang/tambahBarang','JadwalController@tambahBarang')->name('barang.tambahBarang')->middleware('can:dpk');
     Route::post('barang/storeBarang','JadwalController@storeBarang')->name('barang.storeBarang')->middleware('can:dpk');
-    Route::post('anjing/anjing','JadwalController@anjingBarang')->name('anjing.anjing')->middleware('can:dpk');
+    // Route::post('anjing/anjing','JadwalController@anjingBarang')->name('anjing.anjing')->middleware('can:dpk');
+    Route::get('barang/editBarang','JadwalController@editBarang')->name('barang.editBarang')->middleware('can:dpk');
     Route::post('barang/updateBarang','JadwalController@updateBarang')->name('barang.updateBarang')->middleware('can:dpk');
 
 });

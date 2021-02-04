@@ -12,7 +12,7 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form method="POST" action="{{ route('jadwals.update', $data->id)  }}">
+        <form method="POST" action="{{ route('barang.updateBarang', $data->id)  }}">
         @csrf
         @method("PUT")
         <div class="card-body">
@@ -48,34 +48,13 @@
                 </select>
             </div>
         </div>
+        
         <div class="card-body">
             <div class="form-group">
             <label for="exampleInputEmail1">Nama Kegiatan</label>
             <input type="text" value="{{$data->nama_kegiatan}}" class="form-control" name="namaKegiatan" placeholder="Nama Kegiatan" required>
             </div>
         </div>
-
-        @if($data->id_barang == null)
-        <div class="card-body">
-            <div class="form-group">
-                <label>Fasilitas</label>
-                <select name="fasilitas" class="form-control select2" style="width: 100%;" required>
-                <option value="" disabled selected>Pilih Fasilitas</option>
-                @foreach($fasilitas as $s)
-                    @if($s->id == $data->id_fasilitas)
-                        <option value="{{ $s->id }}" selected = "selected"> <?php echo $s->nama_fasilitas ?> </option>
-                    @else
-                        <option value="{{ $s->id }}"> <?php echo $s->nama_fasilitas ?> </option>
-                    @endif
-                @endforeach
-                </select>
-            </div>
-        </div>
-        <input type="hidden" value="null" class="form-control" name="barang">
-        <input type="hidden" value="null" class="form-control" name="jumlah">
-        @endif
-
-        @if($data->id_fasilitas == null)
         <div class="card-body">
             <div class="form-group">
                 <label>Barang</label>
@@ -97,11 +76,6 @@
             <input type="text" value="{{$data->jumlah}}" class="form-control" name="jumlah" placeholder="Jumlah" required>
             </div>
         </div>
-
-        <input type="hidden" value="null" class="form-control" name="fasilitas">
-        @endif
-
-
         <div class="card-body">
             <div class="form-group">
             <label for="exampleInputEmail1">Durasi:</label><br>

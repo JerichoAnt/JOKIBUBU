@@ -143,7 +143,9 @@ class JadwalController extends Controller
         $data = $jadwal;
         $ormawa = Ormawa::all();
         $fasilitas = Fasilitas::all();
-        return view('jadwal.edit',compact('data', 'ormawa', 'fasilitas'));
+        $barang = Barang::all();
+
+        return view('jadwal.edit',compact('data', 'ormawa', 'fasilitas', 'barang'));
     }
 
     /**
@@ -160,7 +162,25 @@ class JadwalController extends Controller
         $jadwal->no_telp = $request->get('nomorTelp');
         $jadwal->id_ormawa = $request->get('ormawa');
         $jadwal->nama_kegiatan = $request->get('namaKegiatan');
-        $jadwal->id_fasilitas = $request->get('fasilitas');
+
+        $cek_fasilitas = $request->get('fasilitas');
+        $cek_barang = $request->get('barang');
+        $cek_jumlah = $request->get('jumlah');
+
+        if($cek_fasilitas != "null")
+        {
+            $jadwal->id_fasilitas = $request->get('fasilitas');
+        }
+        if($cek_barang != "null")
+        {
+            $jadwal->id_barang = $request->get('barang');
+        }
+        if($cek_jumlah != "null")
+        {
+            $jadwal->jumlah = $request->get('jumlah');
+        }
+
+
         $jadwal->durasiMulai = $request->get('durasiMulai');
         $jadwal->durasiSelesai = $request->get('durasiSelesai');
 
@@ -212,12 +232,12 @@ class JadwalController extends Controller
         return view('jadwal.tambahBarang',compact('ormawa', 'barang'));
     }
 
-    public function anjingBarang()
-    {
-        $ormawa = Ormawa::all();
-        $barang = Barang::all();
-        return view('jadwal.anjing',compact('ormawa', 'barang'));
-    }
+    // public function anjingBarang()
+    // {
+    //     $ormawa = Ormawa::all();
+    //     $barang = Barang::all();
+    //     return view('jadwal.anjing',compact('ormawa', 'barang'));
+    // }
     public function storeBarang(Request $request)
     {
         $data = new Jadwal;
@@ -250,5 +270,14 @@ class JadwalController extends Controller
 
         $jadwal->save();
         return redirect()->route('jadwals.index')->with('status','Data Jadwal berhasil diubah');
+    }
+
+    public function editBarang(Jadwal $jadwal)
+    {
+        $data = $jadwal;
+        $ormawa = Ormawa::all();
+        $barang = Barang::all();
+
+        return view('jadwal.editBarang',compact('data', 'ormawa', 'barang'));
     }
 }
