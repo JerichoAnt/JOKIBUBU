@@ -106,9 +106,9 @@
             <div class="form-group">
             <label for="exampleInputEmail1">Durasi:</label><br>
             <label>Mulai</label>
-            <input type="datetime-local" value="{{$data->durasiMulai}}" class="form-control" name="durasiMulai" placeholder="Durasi" required><br>
+            <input type="datetime-local" value="{{$data->durasiMulai}}" class="form-control" name="durasiMulai" placeholder="Durasi" readonly = 'readonly' required><br>
             <label>Selesai</label>
-            <input type="datetime-local" value="{{$data->durasiSelesai}}" class="form-control" name="durasiSelesai" placeholder="Durasi" required>
+            <input type="datetime-local" value="{{$data->durasiSelesai}}" class="form-control" name="durasiSelesai" placeholder="Durasi" readonly = 'readonly' required>
             </div>
         </div>
         <!-- /.card-body -->

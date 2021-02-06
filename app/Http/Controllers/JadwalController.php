@@ -52,73 +52,75 @@ class JadwalController extends Controller
     {
         $mulai = $request->get('durasiMulai');
         $mulai1 = substr($mulai,0,10)." ".substr($mulai,11,16);
-        // dd($mulai1);
-
         $mulai2 = strtotime($mulai1);
         
-        
-
         $selesai = $request->get('durasiSelesai');
         $selesai1 = substr($selesai,0,10)." ".substr($selesai,11,16);
         $selesai2 = strtotime($selesai1);
         
         $nama = $request->get('fasilitas');
 
-        $totalData = DB::select(DB::raw("SELECT count(*) FROM jadwals WHERE id_fasilitas = ".$nama));
+        $totalData = DB::select(DB::raw("SELECT count(*) as jumlah FROM jadwals WHERE id_fasilitas = ".$nama));
 
-        for($a = 0; $a < $totalData; $a++)
+        foreach($totalData as $s)
         {
-            $sub1 = DB::select(DB::raw("SELECT durasiMulai FROM jadwals WHERE id_fasilitas = ".$nama." LIMIT ".$a.",1"));
-            dd($sub1["durasiMulai"]);
-            $sub2 = DB::select(DB::raw("SELECT durasiMulai FROM jadwals WHERE id_fasilitas = ".$nama." LIMIT ".$a.",1"));
-            $totalSub = substr($sub1[0][0],0,10)." ".substr($sub2[0][0],11,16);
-            dd($totalSub);
-            $strto = strtotime($totalSub);
-
-            
-
-            $cekAwal[$a] = strtotime(substr(DB::select(DB::raw("SELECT durasiMulai FROM jadwals WHERE id_fasilitas = ".$nama." LIMIT ".$a.",1")),0,10)." ". 
-            substr(DB::select(DB::raw("SELECT durasiMulai FROM jadwals WHERE id_fasilitas = ".$nama." LIMIT ".$a.",1")),11,16));
-            
-            $cekAkhir[$a] = strtotime(DB::select(DB::raw("SELECT durasiSelesai FROM jadwals WHERE id_fasilitas = ".$nama." LIMIT ".$a.",1")).substr(0,10) + " " +
-            DB::select(DB::raw("SELECT durasiSelesai FROM jadwals WHERE id_fasilitas = ".$nama." LIMIT ".$a.",1")).substr(11,16));
+            $totalDataFix = $s->jumlah;
         }
-        
 
-        //foreach array
-        $lolos = "Sukses";
-        for($i = 0; $i<count($cekAwal); $i++)
+        for($a = 0; $a < $totalDataFix; $a++)
         {
-            if($mulai >= $cekAwal[i] && $selesai <= $cekAkhir[i])
+            $sub1 = DB::select(DB::raw("SELECT durasiMulai, durasiSelesai FROM jadwals WHERE id_fasilitas = ".$nama." LIMIT ".$a.",1"));
+            foreach($sub1 as $s)
             {
-                $lolos = "Gagal";
+                $sub1Fix = $s->durasiMulai;
+                $sub2Fix = $s->durasiSelesai;
             }
-            break;
+
+            $subAwal = substr($sub1Fix,0,10)." ".substr($sub1Fix,11,16);
+            $subAkhir = substr($sub2Fix,0,10)." ".substr($sub2Fix,11,16);
+
+            $cekAwal = strtotime($subAwal);
+            $cekAkhir = strtotime($subAkhir);
+
+            if(($mulai2 <= $cekAwal && $selesai2 >= $cekAwal) || ($mulai2 >= $cekAwal && $selesai2 <= $cekAkhir)|| ($mulai2 <= $cekAwal && $selesai2 >= $cekAkhir) || ($mulai2 <= $cekAkhir && $selesai2 >= $cekAkhir))
+            {
+                return redirect('jadwals')->with('error','Data Jadwal tidak berhasil ditambah!!');
+            }
+            if($a == $totalDataFix-1)
+            {
+                break;
+            }
         }
 
+        $data = new Jadwal;
+        $data->nama_peminjam = $request->get('namaPeminjam');
+        $data->nrp = $request->get('nrp');
+        $data->no_telp = $request->get('nomorTelp');
+        $data->id_ormawa = $request->get('ormawa');
+        $data->nama_kegiatan = $request->get('namaKegiatan');
 
-        if($lolos == "Sukses")
+        $cek_fasilitas = $request->get('fasilitas');
+        $cek_barang = $request->get('barang');
+        $cek_jumlah = $request->get('jumlah');
+
+        if($cek_fasilitas != "null")
         {
-            $data = new Jadwal;
-            $data->nama_peminjam = $request->get('namaPeminjam');
-            $data->nrp = $request->get('nrp');
-            $data->no_telp = $request->get('nomorTelp');
-            $data->id_ormawa = $request->get('ormawa');
-            $data->nama_kegiatan = $request->get('namaKegiatan');
             $data->id_fasilitas = $request->get('fasilitas');
-            $data->durasiMulai = $request->get('durasiMulai');
-            $data->durasiSelesai = $request->get('durasiSelesai');
-    
-            $data->save();
-            return redirect('jadwals')->with('status','Data Jadwal berhasil ditambah!!');
         }
-        else
+        if($cek_barang != "null")
         {
-            return redirect('jadwals')->with('error','Data Jadwal tidak berhasil ditambah!!');
+            $data->id_barang = $request->get('barang');
         }
-        
+        if($cek_jumlah != "null")
+        {
+            $data->jumlah = $request->get('jumlah');
+        }
 
-        
+        $data->durasiMulai = $request->get('durasiMulai');
+        $data->durasiSelesai = $request->get('durasiSelesai');
+
+        $data->save();
+        return redirect('jadwals')->with('status','Data Jadwal berhasil ditambah!!');
     }
 
     /**
@@ -240,44 +242,101 @@ class JadwalController extends Controller
     // }
     public function storeBarang(Request $request)
     {
+        $mulai = $request->get('durasiMulai');
+        $mulai1 = substr($mulai,0,10)." ".substr($mulai,11,16);
+        $mulai2 = strtotime($mulai1);
+        
+        $selesai = $request->get('durasiSelesai');
+        $selesai1 = substr($selesai,0,10)." ".substr($selesai,11,16);
+        $selesai2 = strtotime($selesai1);
+        
+        $nama = $request->get('fasilitas');
+
+        $totalData = DB::select(DB::raw("SELECT count(*) as jumlah FROM jadwals WHERE id_barang = ".$nama));
+
+        foreach($totalData as $s)
+        {
+            $totalDataFix = $s->jumlah;
+        }
+
+        for($a = 0; $a < $totalDataFix; $a++)
+        {
+            $sub1 = DB::select(DB::raw("SELECT durasiMulai, durasiSelesai FROM jadwals WHERE id_fasilitas = ".$nama." LIMIT ".$a.",1"));
+            foreach($sub1 as $s)
+            {
+                $sub1Fix = $s->durasiMulai;
+                $sub2Fix = $s->durasiSelesai;
+            }
+
+            $subAwal = substr($sub1Fix,0,10)." ".substr($sub1Fix,11,16);
+            $subAkhir = substr($sub2Fix,0,10)." ".substr($sub2Fix,11,16);
+
+            $cekAwal = strtotime($subAwal);
+            $cekAkhir = strtotime($subAkhir);
+
+            if(($mulai2 <= $cekAwal && $selesai2 >= $cekAwal) || ($mulai2 >= $cekAwal && $selesai2 <= $cekAkhir)|| ($mulai2 <= $cekAwal && $selesai2 >= $cekAkhir) || ($mulai2 <= $cekAkhir && $selesai2 >= $cekAkhir))
+            {
+                return redirect('jadwals')->with('error','Data Jadwal tidak berhasil ditambah!!');
+            }
+            if($a == $totalDataFix-1)
+            {
+                break;
+            }
+        }
+
         $data = new Jadwal;
         $data->nama_peminjam = $request->get('namaPeminjam');
         $data->nrp = $request->get('nrp');
         $data->no_telp = $request->get('nomorTelp');
         $data->id_ormawa = $request->get('ormawa');
         $data->nama_kegiatan = $request->get('namaKegiatan');
-        $data->id_barang = $request->get('barang');
-        $data->jumlah = $request->get('jumlah');
+
+        $cek_fasilitas = $request->get('fasilitas');
+        $cek_barang = $request->get('barang');
+        $cek_jumlah = $request->get('jumlah');
+
+        if($cek_fasilitas != "null")
+        {
+            $data->id_fasilitas = $request->get('fasilitas');
+        }
+        if($cek_barang != "null")
+        {
+            $data->id_barang = $request->get('barang');
+        }
+        if($cek_jumlah != "null")
+        {
+            $data->jumlah = $request->get('jumlah');
+        }
+
         $data->durasiMulai = $request->get('durasiMulai');
         $data->durasiSelesai = $request->get('durasiSelesai');
 
         $data->save();
-
         return redirect('jadwals')->with('status','Data Jadwal berhasil ditambah!!');
     }
 
-    public function updateBarang(Request $request, Jadwal $jadwal)
-    {
-        $jadwal->nama_peminjam = $request->get('namaPeminjam');
-        $jadwal->nrp = $request->get('nrp');
-        $jadwal->no_telp = $request->get('nomorTelp');
-        $jadwal->id_ormawa = $request->get('ormawa');
-        $jadwal->nama_kegiatan = $request->get('namaKegiatan');
-        $jadwal->id_barang = $request->get('barang');
-        $jadwal->jumlah = $request->get('jumlah');
-        $jadwal->durasiMulai = $request->get('durasiMulai');
-        $jadwal->durasiSelesai = $request->get('durasiSelesai');
+    // public function updateBarang(Request $request, Jadwal $jadwal)
+    // {
+    //     $jadwal->nama_peminjam = $request->get('namaPeminjam');
+    //     $jadwal->nrp = $request->get('nrp');
+    //     $jadwal->no_telp = $request->get('nomorTelp');
+    //     $jadwal->id_ormawa = $request->get('ormawa');
+    //     $jadwal->nama_kegiatan = $request->get('namaKegiatan');
+    //     $jadwal->id_barang = $request->get('barang');
+    //     $jadwal->jumlah = $request->get('jumlah');
+    //     $jadwal->durasiMulai = $request->get('durasiMulai');
+    //     $jadwal->durasiSelesai = $request->get('durasiSelesai');
 
-        $jadwal->save();
-        return redirect()->route('jadwals.index')->with('status','Data Jadwal berhasil diubah');
-    }
+    //     $jadwal->save();
+    //     return redirect()->route('jadwals.index')->with('status','Data Jadwal berhasil diubah');
+    // }
 
-    public function editBarang(Jadwal $jadwal)
-    {
-        $data = $jadwal;
-        $ormawa = Ormawa::all();
-        $barang = Barang::all();
+    // public function editBarang(Jadwal $jadwal)
+    // {
+    //     $data = $jadwal;
+    //     $ormawa = Ormawa::all();
+    //     $barang = Barang::all();
 
-        return view('jadwal.editBarang',compact('data', 'ormawa', 'barang'));
-    }
+    //     return view('jadwal.editBarang',compact('data', 'ormawa', 'barang'));
+    // }
 }
