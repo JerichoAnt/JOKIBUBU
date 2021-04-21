@@ -250,7 +250,7 @@ class JadwalController extends Controller
         $selesai1 = substr($selesai,0,10)." ".substr($selesai,11,16);
         $selesai2 = strtotime($selesai1);
         
-        $nama = $request->get('fasilitas');
+        $nama = $request->get('barang');
 
         $totalData = DB::select(DB::raw("SELECT count(*) as jumlah FROM jadwals WHERE id_barang = ".$nama));
 

@@ -20,9 +20,10 @@
                       </div>
                     @endif
                     <br>
-                    <a href="{{route('jadwals.create')}}">+ Tambah Jadwal Fasilitas Baru</a>
+                    <a href="{{route('jadwals.create')}}"  class="btn btn-info">+ Tambah Jadwal untuk Fasilitas Baru</a>
                     <br>
-                    <a href="{{route('barang.tambahBarang')}}">+ Tambah Jadwal Barang Baru</a>
+                    <br>
+                    <a href="{{route('barang.tambahBarang')}}" class="btn btn-info">+ Tambah Jadwal untuk Barang Baru</a>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body" style="overflow:auto;">
