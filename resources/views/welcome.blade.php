@@ -10,6 +10,31 @@
             <div class="card card-primary">
               <div class="card-body p-0">
                 <!-- THE CALENDAR -->
+                <div style="margin:15px">
+                <label for="filter">Filter: </label>
+                <select id="filter" class="form-select" aria-label="Default select example">
+                  <option value ="Filter">Semua</option>
+                  <option disabled>______Fasilitas_____</option>
+                  @foreach($data_filter_fasilitas as $f)
+                  {
+                    @if($filter==$f->nama_fasilitas)
+                    <option value="{{$f->nama_fasilitas}}" selected>{{$f->nama_fasilitas}}</option>
+                    @else
+                    <option value="{{$f->nama_fasilitas}}">{{$f->nama_fasilitas}}</option>
+                    @endif
+                  }
+                  @endforeach
+                  <option disabled>_____Barang_____</option>
+                  @foreach($data_filter_barang as $f)
+                  {
+                    @if($filter==$f->nama_barang)
+                    <option value="{{$f->nama_barang}}" selected>{{$f->nama_barang}}</option>
+                    @else
+                    <option value="{{$f->nama_barang}}">{{$f->nama_barang}}</option>
+                    @endif                  }
+                  @endforeach
+                </select>
+                </div>
                 <div id="calendar"></div>
               </div>
               <!-- /.card-body -->
@@ -22,11 +47,8 @@
       </div><!-- /.container-fluid -->
     </section>
 @endsection
-
 <!-- jQuery -->
 <script src="{{ asset('plugins/jquery/jquery.min.js')}}"></script>
-<!-- Bootstrap -->
-<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- jQuery UI -->
 <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- AdminLTE App -->
@@ -37,6 +59,18 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('dist/js/demo.js')}}"></script>
 <!-- Page specific script -->
+<script>
+    $(function(){
+      // bind change event to select
+      $('#filter').on('change', function () {
+          var url = "../index/"+$(this).val();// get selected value
+          if (url) { // require a URL
+              window.location = url; // redirect
+          }
+          return false;
+      });
+    });
+</script>
 <script>
   $(function () {
 
@@ -81,9 +115,12 @@
     var checkbox = document.getElementById('drop-remove');
     var calendarEl = document.getElementById('calendar');
 
+    
+    
     // initialize the external events
     // -----------------------------------------------------------------
 
+    aa = $("#filter option:selected").text()
 
     var calendar = new Calendar(calendarEl, {
       headerToolbar: {
@@ -95,28 +132,30 @@
       //Random default events
       events: [
         //Fasilitas
-        @foreach($data_jadwal_fasilitas as $d)
-        {
-          title          : '{{$d->nama_kegiatan}}',
-          start          : new Date('{{$d->durasiMulai}}'.substring(0,4), '{{$d->durasiMulai}}'.substring(5,7)-1, '{{$d->durasiMulai}}'.substring(8,10), '{{$d->durasiMulai}}'.substring(11,13), '{{$d->durasiMulai}}'.substring(14,16)),
-          end            : new Date('{{$d->durasiSelesai}}'.substring(0,4), '{{$d->durasiSelesai}}'.substring(5,7)-1, '{{$d->durasiSelesai}}'.substring(8,10), '{{$d->durasiSelesai}}'.substring(11,13), '{{$d->durasiSelesai}}'.substring(14,16)),
-          allDay         : false,
-          backgroundColor: '#0073b7', //Blue
-          borderColor    : '#0073b7' //Blue
-        },
-        @endforeach
+        
+          @foreach($data_jadwal_fasilitas as $d)
+          {
+            title          : '{{$d->nama_kegiatan}}',
+            start          : new Date('{{$d->durasiMulai}}'.substring(0,4), '{{$d->durasiMulai}}'.substring(5,7)-1, '{{$d->durasiMulai}}'.substring(8,10), '{{$d->durasiMulai}}'.substring(11,13), '{{$d->durasiMulai}}'.substring(14,16)),
+            end            : new Date('{{$d->durasiSelesai}}'.substring(0,4), '{{$d->durasiSelesai}}'.substring(5,7)-1, '{{$d->durasiSelesai}}'.substring(8,10), '{{$d->durasiSelesai}}'.substring(11,13), '{{$d->durasiSelesai}}'.substring(14,16)),
+            allDay         : false,
+            backgroundColor: '#0073b7', //Blue
+            borderColor    : '#0073b7' //Blue
+          },
+          @endforeach
 
-        //Barang
-        @foreach($data_jadwal_barang as $d)
-        {
-          title          : '{{$d->nama_kegiatan}}',
-          start          : new Date('{{$d->durasiMulai}}'.substring(0,4), '{{$d->durasiMulai}}'.substring(5,7)-1, '{{$d->durasiMulai}}'.substring(8,10), '{{$d->durasiMulai}}'.substring(11,13), '{{$d->durasiMulai}}'.substring(14,16)),
-          end            : new Date('{{$d->durasiSelesai}}'.substring(0,4), '{{$d->durasiSelesai}}'.substring(5,7)-1, '{{$d->durasiSelesai}}'.substring(8,10), '{{$d->durasiSelesai}}'.substring(11,13), '{{$d->durasiSelesai}}'.substring(14,16)),
-          allDay         : false,
-          backgroundColor: '#f2c335', //Yellow
-          borderColor    : '#f2c335' //Yellow
-        },
-        @endforeach
+          //Barang
+          @foreach($data_jadwal_barang as $d)
+          {
+            title          : '{{$d->nama_kegiatan}}',
+            start          : new Date('{{$d->durasiMulai}}'.substring(0,4), '{{$d->durasiMulai}}'.substring(5,7)-1, '{{$d->durasiMulai}}'.substring(8,10), '{{$d->durasiMulai}}'.substring(11,13), '{{$d->durasiMulai}}'.substring(14,16)),
+            end            : new Date('{{$d->durasiSelesai}}'.substring(0,4), '{{$d->durasiSelesai}}'.substring(5,7)-1, '{{$d->durasiSelesai}}'.substring(8,10), '{{$d->durasiSelesai}}'.substring(11,13), '{{$d->durasiSelesai}}'.substring(14,16)),
+            allDay         : false,
+            backgroundColor: '#f2c335', //Yellow
+            borderColor    : '#f2c335' //Yellow
+          },
+          @endforeach
+    
       ],
       editable  : false,
       droppable : false, // this allows things to be dropped onto the calendar !!!
@@ -128,6 +167,7 @@
         }
       }
     });
+  
 
     calendar.render();
     // $('#calendar').fullCalendar()

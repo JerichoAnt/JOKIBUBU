@@ -20,10 +20,10 @@
                       </div>
                     @endif
                     <br>
-                    <a href="{{route('jadwals.create')}}"  class="btn btn-info">+ Tambah Jadwal untuk Fasilitas Baru</a>
+                    <a href="{{route('jadwals.create')}}"  class="btn btn-info">+ Tambah Jadwal Baru untuk Fasilitas</a>
                     <br>
                     <br>
-                    <a href="{{route('barang.tambahBarang')}}" class="btn btn-info">+ Tambah Jadwal untuk Barang Baru</a>
+                    <a href="{{route('barang.tambahBarang')}}" class="btn btn-info">+ Tambah Jadwal Baru untuk Barang</a>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body" style="overflow:auto;">
@@ -45,7 +45,7 @@
                       <th>Jumlah</th>
                       <th>Durasi Mulai</th>
                       <th>Durasi Selesai</th>
-                      <th></th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                         <tbody>
@@ -165,7 +165,7 @@
 <script>
   $(function () {
     $("#tabelJadwal").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "responsive": true, "lengthChange": false, "autoWidth": false, "scrollX": true, "scroller":true,"scrollCollapse":true,
       "buttons": ["copy", "csv", "excel", "pdf", "print"]
     }).buttons().container().appendTo('#tabelJadwal_wrapper .col-md-6:eq(0)');
   });
