@@ -2,14 +2,14 @@
 
 @section('tempat_konten')
 <br>
-<section class="content">
-    <div class="container-fluid">
-        <div class="row">
+            <section class="content">
+        <div class="container-fluid">
+            <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Daftar Jadwal</h3>
-                        @if (session('status'))
+                <div class="card-header">
+                    <h3 class="card-title">Daftar Jadwal</h3>
+                    @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
@@ -20,10 +20,17 @@
                       </div>
                     @endif
                     <br>
+<<<<<<< HEAD
                     <a href="{{route('jadwals.create')}}"  class="btn btn-info">+ Tambah Jadwal Baru untuk Fasilitas</a>
                     <br>
                     <br>
                     <a href="{{route('barang.tambahBarang')}}" class="btn btn-info">+ Tambah Jadwal Baru untuk Barang</a>
+=======
+                    <a href="{{route('jadwals.create')}}"  class="btn btn-info">+ Tambah Jadwal untuk Fasilitas Baru</a>
+                    <br>
+                    <br>
+                    <a href="{{route('barang.tambahBarang')}}" class="btn btn-info">+ Tambah Jadwal untuk Barang Baru</a>
+>>>>>>> parent of 2c00a4a (filter di tabel jadwal)
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body" style="overflow:auto;">
@@ -45,7 +52,11 @@
                       <th>Jumlah</th>
                       <th>Durasi Mulai</th>
                       <th>Durasi Selesai</th>
+<<<<<<< HEAD
                       <th>Action</th>
+=======
+                      <th></th>
+>>>>>>> parent of 2c00a4a (filter di tabel jadwal)
                     </tr>
                   </thead>
                         <tbody>
@@ -53,6 +64,7 @@
                     <tr>
                         <td>
                         <input type="checkbox" name="ids[]" class="selectbox" value="{{$d->id}}">
+<<<<<<< HEAD
 
                         <a href="{{route('barang.tambahBarang')}}" class="btn btn-info">+ Tambah Jadwal untuk Barang Baru</a>
                     </div>
@@ -311,29 +323,88 @@
                                 </div>
                             </div>
                         </div>
+=======
+>>>>>>> parent of 2c00a4a (filter di tabel jadwal)
 
-                    </div>
-                    <!-- /.card-body -->
+                        </td>
+                        <td>
+                            {{$d->nama_peminjam}}
+                        </td>
+                        <td>
+                            {{$d->nrp}}
+                        </td>
+                        <td>
+                            {{$d->no_telp}}
+                        </td>
+                        <td>
+                            {{$d->ormawa->nama_ormawa}}
+                        </td>
+                        <td>
+                            {{$d->nama_kegiatan}}
+                        </td>
+                        <td>
+                            {{$d->fasilitas['nama_fasilitas']}}
+                        </td>
+                        <td>
+                            {{$d->barang['nama_barang']}}
+                        </td>
+                        <td>
+                            {{$d->jumlah}}
+                        </td>
+                        <td>
+                            {{$d->durasiMulai}}
+                        </td>
+                        <td>
+                            {{$d->durasiSelesai}}
+                        </td>
+                        <td>
+                @if($d->id_fasilitas == null)
+                    <!-- <a class="btn btn-warning" href="{{ route('barang.editBarang') }}">
+                        Update Barang
+                    </a> -->
+                    <a class="btn btn-warning" href="{{ route('jadwals.edit', $d->id) }}">
+                            Update 
+                        </a>
+                @elseif ($d->id_barang == null)
+                        <a class="btn btn-warning" href="{{ route('jadwals.edit', $d->id) }}">
+                            Update 
+                        </a>
+                    @endif
+                        
+                          <button formaction="{{ route('jadwals.destroy', $d->id) }}" type='submit' value='Delete' class='btn btn-danger' 
+                          onclick="if(!confirm('Apakah Anda yakin?' )) return false;"
+                          >Delete</button>
+                    </td>    
+                    </tr>
+                    @endforeach
+                  </tbody>
+                    </table>
+                    </form>
+                </div>
+                <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
             </div>
             <!-- /.col -->
+            </div>
+            <!-- /.row -->
         </div>
-        <!-- /.row -->
-    </div>
-    <!-- /.container-fluid -->
-</section>
+      <!-- /.container-fluid -->
+    </section>
 
-<script type="text/javascript">
-    $('.selectall').click(function() {
+    <script type="text/javascript">
+    $('.selectall').click(function(){
         $('.selectbox').prop('checked', $(this).prop('checked'));
     })
-    $('.selectbox').change(function() {
+    $('.selectbox').change(function(){
         var total = $('.selectbox').length;
         var number = $('.selectbox:checked').length;
-        if (total == number) {
+        if(total == number)
+        {
             $('.selectall').prop('checked', true);
-        } else {
+        }
+        else
+        {
             $('.selectall').prop('checked', false);
         }
     })
@@ -346,27 +417,31 @@
 <!-- Bootstrap 4 -->
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- DataTables  & Plugins -->
-<script src="{{ asset('plugins/datatables/jquery.dataTables.min.js')}}" defer></script>
-<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}" defer></script>
-<script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js')}}" defer></script>
-<script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}" defer></script>
-<script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js')}}" defer></script>
-<script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}" defer></script>
+<script src="{{ asset('plugins/datatables/jquery.dataTables.min.js')}}"defer></script>
+<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"defer></script>
+<script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"defer></script>
+<script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"defer></script>
+<script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"defer></script>
+<script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"defer></script>
 <script src="{{ asset('plugins/jszip/jszip.min.js')}}"></script>
 <script src="{{ asset('plugins/pdfmake/pdfmake.min.js')}}"></script>
 <script src="{{ asset('plugins/pdfmake/vfs_fonts.js')}}"></script>
-<script src="{{ asset('plugins/datatables-buttons/js/buttons.html5.min.js')}}" defer></script>
-<script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js')}}" defer></script>
-<script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js')}}" defer></script>
+<script src="{{ asset('plugins/datatables-buttons/js/buttons.html5.min.js')}}"defer></script>
+<script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js')}}"defer></script>
+<script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js')}}"defer></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.min.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="{{ asset('dist/js/demo.js')}}" defer></script>
+<script src="{{ asset('dist/js/demo.js')}}"defer></script>
 <!-- Page specific script -->
 <script>
   $(function () {
     $("#tabelJadwal").DataTable({
+<<<<<<< HEAD
       "responsive": true, "lengthChange": false, "autoWidth": false, "scrollX": true, "scroller":true,"scrollCollapse":true,
+=======
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+>>>>>>> parent of 2c00a4a (filter di tabel jadwal)
       "buttons": ["copy", "csv", "excel", "pdf", "print"]
     }).buttons().container().appendTo('#tabelJadwal_wrapper .col-md-6:eq(0)');
   });
