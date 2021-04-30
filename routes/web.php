@@ -40,9 +40,9 @@ Route::middleware(['auth'])->group(function()
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('barang/tambahBarang','JadwalController@tambahBarang')->name('barang.tambahBarang')->middleware('can:dpk');
     Route::post('barang/storeBarang','JadwalController@storeBarang')->name('barang.storeBarang')->middleware('can:dpk');
+    // Route::post('anjing/anjing','JadwalController@anjingBarang')->name('anjing.anjing')->middleware('can:dpk');
     Route::get('barang/editBarang','JadwalController@editBarang')->name('barang.editBarang')->middleware('can:dpk');
     Route::post('barang/updateBarang','JadwalController@updateBarang')->name('barang.updateBarang')->middleware('can:dpk');
 
-    Route::get('index/{id}','JadwalController@jadwalfilter')->name('jadwal.jadwalfilter')->middleware('can:dpk');
 });
 Auth::routes();
