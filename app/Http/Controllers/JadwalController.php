@@ -24,10 +24,33 @@ class JadwalController extends Controller
 
     public function jadwal()
     {
-        $data_jadwal_fasilitas = DB::select(DB::raw("(SELECT j.* FROM jadwals j WHERE j.jumlah is null)"));
-        $data_jadwal_barang = DB::select(DB::raw("(SELECT j.* FROM jadwals j WHERE j.jumlah is not null)"));
+        $filter="";
+        $data_jadwal_fasilitas = DB::select(DB::raw("(SELECT j.*,f.nama_fasilitas FROM jadwals j inner join fasilitas f on f.id=j.id_fasilitas WHERE j.jumlah is null)"));
+        $data_jadwal_barang = DB::select(DB::raw("(SELECT j.*,b.nama_barang FROM jadwals j inner join barangs b on b.id=j.id_barang WHERE j.jumlah is not null)"));
+        $data_filter_barang= DB::select(DB::raw("(SELECT b.* FROM barangs b inner join jadwals j on id_barang=b.id)"));
+        $data_filter_fasilitas= DB::select(DB::raw("(SELECT f.* FROM fasilitas f inner join jadwals j on j.id_barang=f.id)"));
+
         // dd($data_jadwal_barang);
-        return view('welcome', compact('data_jadwal_fasilitas', 'data_jadwal_barang'));
+        return view('welcome', compact('data_jadwal_fasilitas', 'data_jadwal_barang', 'data_filter_barang', 'data_filter_fasilitas','filter'));
+    }
+
+    public function jadwalfilter($id)
+    {
+        $ids = str_replace("%20"," ",$id);
+        $filter=$ids;
+        if($ids!="Filter"){
+        $data_jadwal_fasilitas = DB::select(DB::raw("(SELECT j.*,f.nama_fasilitas FROM jadwals j inner join fasilitas f on f.id=j.id_fasilitas WHERE j.jumlah is null and nama_fasilitas='$ids')"));
+        $data_jadwal_barang = DB::select(DB::raw("(SELECT j.*,b.nama_barang FROM jadwals j inner join barangs b on b.id=j.id_barang WHERE j.jumlah is not null and nama_barang='$ids')"));
+        $data_filter_barang= DB::select(DB::raw("(SELECT b.* FROM barangs b inner join jadwals j on id_barang=b.id)"));
+        $data_filter_fasilitas= DB::select(DB::raw("(SELECT f.* FROM fasilitas f inner join jadwals j on j.id_barang=f.id)"));
+        }
+        else{
+            $data_jadwal_fasilitas = DB::select(DB::raw("(SELECT j.*,f.nama_fasilitas FROM jadwals j inner join fasilitas f on f.id=j.id_fasilitas WHERE j.jumlah is null)"));
+            $data_jadwal_barang = DB::select(DB::raw("(SELECT j.*,b.nama_barang FROM jadwals j inner join barangs b on b.id=j.id_barang WHERE j.jumlah is not null)"));
+            $data_filter_barang= DB::select(DB::raw("(SELECT b.* FROM barangs b inner join jadwals j on id_barang=b.id)"));
+            $data_filter_fasilitas= DB::select(DB::raw("(SELECT f.* FROM fasilitas f inner join jadwals j on j.id_barang=f.id)"));
+        }      
+        return view('welcome', compact('data_jadwal_fasilitas', 'data_jadwal_barang', 'data_filter_barang', 'data_filter_fasilitas','filter'));
     }
 
     /**
